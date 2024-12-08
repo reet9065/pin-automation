@@ -19,7 +19,7 @@ const comandHandler = async (messageobj,browser) => {
         })
         break;
 
-      case "/createpin":
+      case "/cp":
         await tel_createpin(messageobj, command[1],browser);
         break;
 

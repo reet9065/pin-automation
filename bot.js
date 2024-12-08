@@ -13,11 +13,8 @@ app.use(express.json());
 
 
 app.post("/bot",processRequestFromBot ,async(req,res)=> {
-    // console.log(req.rawHeaders);
-    // res.send("hello");
     try {
-        await comandHandler(req.body, browser);
-        // await createpin(browser,{});
+        comandHandler(req.body, browser);
         res.send("hello");
     } catch (error) {
         console.log(error)
@@ -26,7 +23,6 @@ app.post("/bot",processRequestFromBot ,async(req,res)=> {
             parse_mode:"HTML",
             text:`<b>Seems like some internal server error 🙁</b>`
         })
-        res.status(200).json({"error":"Internal server error "});
     }
 })
 
