@@ -107,7 +107,6 @@ const createpin = async(browser, pin_object) => {
         await fs.unlink(file_path);
 
         const pin_url = await page.url();
-        console.log(pin_url);
         await page.close();
         return {pin_url,preview_url:`${process.env.DOMAIN}${pin_object.post_slug}`};
 

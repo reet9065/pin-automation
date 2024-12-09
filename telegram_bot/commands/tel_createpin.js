@@ -1,16 +1,18 @@
 require("dotenv").config();
+const { delay } = require("../../lib/delay");
 const { createpin } = require("../../pintrest/createpin");
 const { get_data_from_wpapi } = require("../../wp/wpAPI");
-const { sendMessage, editMessageText } = require("../lib/sendMessage");
+const { sendMessage, editMessageText, deleteMessage } = require("../lib/sendMessage");
 
 
 
 const tel_createpin = async(messageObj, postUrl, browser) => {
+    var message;
     try {
         var text = `<b>⌛ Creating pin please wait...</b>`
 
         if( !postUrl || postUrl.trim() === ""|| !postUrl.includes("https://")){
-            text = `<b>Please provide a valid url 🥲\n ____________________________\n</b><strong>example: /createpin https://your-post-url </strong>`
+            text = `<b>Please provide a valid url 🥲\n ____________________________\n</b><strong>example: /cp https://your-post-url </strong>`
             await sendMessage({
                 chat_id: messageObj.message.chat.id,
                 text: text,
@@ -19,7 +21,8 @@ const tel_createpin = async(messageObj, postUrl, browser) => {
             return;
         }
 
-        const message = await sendMessage({
+
+        message = await sendMessage({
             chat_id: messageObj.message.chat.id,
             text: text,
             parse_mode:"HTML"
@@ -41,6 +44,10 @@ const tel_createpin = async(messageObj, postUrl, browser) => {
 
 
     } catch (error) {
+        await deleteMessage({
+            chat_id: message.result.chat.id,
+            message_id:message.result.message_id
+        })
         throw error;
     }
 }

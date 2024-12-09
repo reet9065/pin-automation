@@ -13,7 +13,6 @@ const sendMessage = async(messageobj,url=`${process.env.TELEGRAM_END_POINT}/bot$
         })
 
         if(!respons.ok){
-            console.log(await respons.json());
             throw new Error("Can't abel to send message to the client");
         }
         const result = await respons.json();
@@ -40,4 +39,22 @@ const editMessageText = async (messageobj, editedMessage) => {
     }
 }
 
-module.exports = {sendMessage,editMessageText}
+const deleteMessage = async (messageInfo) => {
+    try {
+        const respons = await fetch(`${process.env.TELEGRAM_END_POINT}/bot${process.env.BOT_TOKEN}/deleteMessage`,{
+            method:"POST",
+            headers:{
+                'Content-Type': 'application/json'
+            },
+            body:JSON.stringify(messageInfo)
+        });
+
+        if(!respons.ok){
+            throw new Error("Can't abel to delete message");
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+module.exports = {sendMessage,editMessageText, deleteMessage};
